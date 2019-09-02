@@ -128,8 +128,6 @@ github.com/go-openapi/validate v0.19.2 h1:ky5l57HjyVRrsJfd2+Ro5Z9PjGuKbsmftwyMtk
 github.com/go-openapi/validate v0.19.2/go.mod h1:1tRCw7m3jtI8eNWEEliiAqUIcBztB2KDnRCRMUi7GTA=
 github.com/go-stack/stack v1.8.0 h1:5SgMzNM5HxrEjV0ww2lTmX6E2Izsfxas4+YHWRs3Lsk=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
-github.com/michalq/go-swagger v0.20.1 h1:37XFujv7lYHLOKawfzLDg4STwwgB5zhPjodN33asJto=
-github.com/michalq/go-swagger v0.20.1/go.mod h1:LoTpv6FHYXUvYnECHNLvi/qYNybk0d9wkJGH1cTANWE=
 github.com/go-swagger/scan-repo-boundary v0.0.0-20180623220736-973b3573c013 h1:l9rI6sNaZgNC0LnF3MiE+qTmyBA/tZAg1rtyrGbUMK0=
 github.com/go-swagger/scan-repo-boundary v0.0.0-20180623220736-973b3573c013/go.mod h1:b65mBPzqzZWxOZGxSWrqs4GInLIn+u99Q9q7p+GKni0=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
@@ -206,6 +204,9 @@ github.com/mailru/easyjson v0.0.0-20190614124828-94de47d64c63/go.mod h1:C1wdFJiN
 github.com/mailru/easyjson v0.0.0-20190626092158-b2ccc519800e h1:hB2xlXdHp/pmPZq0y3QnmWAArdw9PqbmotexnWx/FU8=
 github.com/mailru/easyjson v0.0.0-20190626092158-b2ccc519800e/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
+github.com/michalq/go-swagger v0.20.1 h1:37XFujv7lYHLOKawfzLDg4STwwgB5zhPjodN33asJto=
+github.com/michalq/go-swagger v0.20.1/go.mod h1:LoTpv6FHYXUvYnECHNLvi/qYNybk0d9wkJGH1cTANWE=
+github.com/michalq/go-swagger v0.21.1/go.mod h1:PQY3hDUiWjHL8TDOvq9mzNk6AFltva2IkNkslhgnDQc=
 github.com/mitchellh/mapstructure v1.1.2 h1:fmNYVwqnSfB9mZU6OS2O6GsXM+wcskZDuKQzvN1EDeE=
 github.com/mitchellh/mapstructure v1.1.2/go.mod h1:FVVH3fgwuzCH5S8UJGiWEs2h04kUh9fWfEaFds41c1Y=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
