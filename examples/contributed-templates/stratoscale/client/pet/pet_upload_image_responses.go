@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	models "github.com/go-swagger/go-swagger/examples/contributed-templates/stratoscale/models"
+	models "github.com/michalq/go-swagger/examples/contributed-templates/stratoscale/models"
 )
 
 // PetUploadImageReader is a Reader for the PetUploadImage structure.

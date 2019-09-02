@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/go-openapi/loads"
-	"github.com/go-swagger/go-swagger/cmd/swagger/commands/diff"
+	"github.com/michalq/go-swagger/cmd/swagger/commands/diff"
 )
 
 // JSONFormat for json

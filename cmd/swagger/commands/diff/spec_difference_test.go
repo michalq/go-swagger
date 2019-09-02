@@ -5,7 +5,7 @@ import (
 
 	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/then"
-	"github.com/go-swagger/go-swagger/cmd/swagger/commands/diff"
+	"github.com/michalq/go-swagger/cmd/swagger/commands/diff"
 )
 
 var assertThat = then.AssertThat

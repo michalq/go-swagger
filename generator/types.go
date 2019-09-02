@@ -542,7 +542,7 @@ func nullableType(schema *spec.Schema, isRequired bool) bool {
 		return *nullable
 	}
 
-	return !isRequired
+	return isRequired
 }
 
 // Checks additional fields in schema x-nullable, to force field as nullable
