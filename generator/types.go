@@ -298,9 +298,9 @@ func (t *typeResolver) resolveFormat(schema *spec.Schema, isAnonymous bool, isRe
 
 		switch result.SwaggerType {
 		case str:
-			result.IsNullable = nullableStrfmt(schema, isRequired)
+			result.IsNullable = nullableType(schema, isRequired)
 		case number, integer:
-			result.IsNullable = nullableNumber(schema, isRequired)
+			result.IsNullable = nullableType(schema, isRequired)
 		default:
 			result.IsNullable = t.IsNullable(schema)
 		}
@@ -534,78 +534,18 @@ func (t *typeResolver) resolveObject(schema *spec.Schema, isAnonymous bool) (res
 	return
 }
 
-// nullableBool makes a boolean a pointer when we want to distinguish the zero value from no value set.
-// This is the case when:
-// - a x-nullable extension says so in the spec
-// - it is **not** a read-only property
-// - it is a required property
-// - it has a default value
-func nullableBool(schema *spec.Schema, isRequired bool) bool {
+// Simplified methods to distinguish nullable fields.
+// All required fields must have value that is way they CANNOT be nil.
+// Optional fields can be skipped in payload thus can be nil.
+func nullableType(schema *spec.Schema, isRequired bool) bool {
 	if nullable := nullableExtension(schema.Extensions); nullable != nil {
 		return *nullable
 	}
-	required := isRequired && schema.Default == nil && !schema.ReadOnly
-	optional := !isRequired && (schema.Default != nil || schema.ReadOnly)
 
-	return required || optional
+	return !isRequired
 }
 
-// nullableNumber makes a number a pointer when we want to distinguish the zero value from no value set.
-// This is the case when:
-// - a x-nullable extension says so in the spec
-// - it is **not** a read-only property
-// - it is a required property
-// - boundaries defines the zero value as a valid value:
-//   - there is a non-exclusive boundary set at the zero value of the type
-//   - the [min,max] range crosses the zero value of the type
-func nullableNumber(schema *spec.Schema, isRequired bool) bool {
-	if nullable := nullableExtension(schema.Extensions); nullable != nil {
-		return *nullable
-	}
-	hasDefault := schema.Default != nil && !swag.IsZero(schema.Default)
-
-	isMin := schema.Minimum != nil && (*schema.Minimum != 0 || schema.ExclusiveMinimum)
-	bcMin := schema.Minimum != nil && *schema.Minimum == 0 && !schema.ExclusiveMinimum
-	isMax := schema.Minimum == nil && (schema.Maximum != nil && (*schema.Maximum != 0 || schema.ExclusiveMaximum))
-	bcMax := schema.Maximum != nil && *schema.Maximum == 0 && !schema.ExclusiveMaximum
-	isMinMax := (schema.Minimum != nil && schema.Maximum != nil && *schema.Minimum < *schema.Maximum)
-	bcMinMax := (schema.Minimum != nil && schema.Maximum != nil && (*schema.Minimum < 0 && 0 < *schema.Maximum))
-
-	nullable := !schema.ReadOnly && (isRequired || (hasDefault && !(isMin || isMax || isMinMax)) || bcMin || bcMax || bcMinMax)
-	return nullable
-}
-
-// nullableString makes a string nullable when we want to distinguish the zero value from no value set.
-// This is the case when:
-// - a x-nullable extension says so in the spec
-// - it is **not** a read-only property
-// - it is a required property
-// - it has a MinLength property set to 0
-// - it has a default other than "" (the zero for strings) and no MinLength or zero MinLength
-func nullableString(schema *spec.Schema, isRequired bool) bool {
-	if nullable := nullableExtension(schema.Extensions); nullable != nil {
-		return *nullable
-	}
-	hasDefault := schema.Default != nil && !swag.IsZero(schema.Default)
-
-	isMin := schema.MinLength != nil && *schema.MinLength != 0
-	bcMin := schema.MinLength != nil && *schema.MinLength == 0
-
-	nullable := !schema.ReadOnly && (isRequired || (hasDefault && !isMin) || bcMin)
-	return nullable
-}
-
-func nullableStrfmt(schema *spec.Schema, isRequired bool) bool {
-	notBinary := schema.Format != binary
-	if nullable := nullableExtension(schema.Extensions); nullable != nil && notBinary {
-		return *nullable
-	}
-	hasDefault := schema.Default != nil && !swag.IsZero(schema.Default)
-
-	nullable := !schema.ReadOnly && (isRequired || hasDefault)
-	return notBinary && nullable
-}
-
+// Checks additional fields in schema x-nullable, to force field as nullable
 func nullableExtension(ext spec.Extensions) *bool {
 	if ext == nil {
 		return nil
@@ -683,11 +623,11 @@ func (t *typeResolver) ResolveSchema(schema *spec.Schema, isAnonymous, isRequire
 		case boolean:
 			result.IsPrimitive = true
 			result.IsCustomFormatter = false
-			result.IsNullable = nullableBool(schema, isRequired)
+			result.IsNullable = nullableType(schema, isRequired)
 		case number, integer:
 			result.IsPrimitive = true
 			result.IsCustomFormatter = false
-			result.IsNullable = nullableNumber(schema, isRequired)
+			result.IsNullable = nullableType(schema, isRequired)
 		case file:
 		}
 		return
@@ -698,7 +638,7 @@ func (t *typeResolver) ResolveSchema(schema *spec.Schema, isAnonymous, isRequire
 		t.inferAliasing(&result, schema, isAnonymous, isRequired)
 
 		result.IsPrimitive = true
-		result.IsNullable = nullableString(schema, isRequired)
+		result.IsNullable = nullableType(schema, isRequired)
 		result.Extensions = schema.Extensions
 
 	case object:

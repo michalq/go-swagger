@@ -251,3 +251,14 @@ Spec flattening now defaults to minimal changes to models and should be workable
 Users who prefer to stick to 0.13 and 0.14 default flattening mode may now use the `--with-flatten=full` option.
 
 Note that the `--skip-flatten` option has been phased out and replaced by the more explicit `--with-expand` option.
+
+
+## Fork notice
+
+This repository was forked from https://github.com/go-swagger/go-swagger
+
+Originally go-swagger was using complicated way to distinguish whether type should be with pointer or not.
+
+The problem with nullable fields is way more simple than it looks.
+Actually all REQUIRED fields MUST have value, that means that type cannot be nil, so pointer to for example string is not necessary.
+In the other hand OPTIONAL fields can be skipped in payload, this kind of fields, in that case it can be nil.
